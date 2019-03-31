@@ -244,6 +244,9 @@ window.onload = function() {
 		$(".timeleng i:first").text(changeTime(oV.currentTime));
 		var scale = oV.currentTime / oV.duration;
 		oDot.style.left = scale * $(".bar").width() + "px"
+		$(".background_style").css({
+			"width":scale * $(".bar").width()
+		})
 	};
 
 	//调整时间
@@ -263,9 +266,14 @@ window.onload = function() {
 		console.log(offset);
 		nowTime();
 		$('.dot').css("left", (offset - 6));
-		oV.currentTime = oV.duration * percent
+		oV.currentTime = oV.duration * percent;
+		$(".background_style").css({
+			"width":offset
+		})
+		
 	};
 	$(".bar_len").click(rangeChange)
+
 
 	//播放进度条
 	var oDot = $(".dot")[0];
@@ -334,36 +342,7 @@ window.onload = function() {
 		return false
 	}
 
-	//列表滚动条
-	var oBox = $("#playlist")[0];
-	var oBarDot = $("#playlist .list_bar .bar_dot")[0];
-	var oBar = $("#playlist .list_bar")[0];
-	var oOl = $("#playlist ol")[0];
 
-	oBarDot.onmousedown = function(ev) {
-		var ev = ev || event;
-		var disX = ev.clientX - this.offsetLeft;
-		var disY = ev.clientY - this.offsetTop;
-
-		document.onmousemove = function(ev) {
-			var ev = ev || event;
-			var T = ev.clientY - disY;
-			if(T < 0) {
-				T = 0;
-			} else if(T > oBar.offsetHeight - oBarDot.offsetHeight) {
-				T = oBar.offsetHeight - oBarDot.offsetHeight
-			};
-			var iRolling = T / (oBar.offsetHeight - oBarDot.offsetHeight);
-
-			oBarDot.style.top = T + "px";
-			var scrollDistance = -iRolling * (oOl.offsetHeight - oBox.offsetHeight);
-			oOl.style.top = scrollDistance + "px";
-		}
-		document.onmouseup = function() {
-			document.onmousemove = document.onmouseup = null;
-		}
-		return false;
-	}
 
 	//补零
 	function toZero(n) {
